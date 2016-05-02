@@ -151,11 +151,11 @@ public class FuncionarioDao extends DaoGeneric implements IFuncionarioDao{
              String sqlFuncionario = "DELETE FROM funcionarios"; 
              PreparedStatement psFuncionario = getConnection().prepareStatement(sqlFuncionario);
              psFuncionario.executeUpdate();
-             this.getConnection().commit();
+            
+            // iDaoPessoa = DaoFactory.createPessoaDao();
+             //iDaoPessoa.limpar();
+              this.getConnection().commit();
              this.closeConnection();
-             iDaoPessoa = DaoFactory.createPessoaDao();
-             iDaoPessoa.limpar();
-             
         }catch(Exception e){
              this.getConnection().rollback();
              e.printStackTrace();

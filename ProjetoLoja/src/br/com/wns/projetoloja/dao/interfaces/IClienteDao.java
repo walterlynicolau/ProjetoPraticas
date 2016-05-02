@@ -15,4 +15,6 @@ public interface IClienteDao {
      public void alterarCliente(Cliente cliente)throws Exception;
      
      public List<Cliente> listarCliente()  throws Exception;
+     
+     public void limparCliente () throws Exception;
 }

@@ -27,6 +27,9 @@ public class FuncionarioTest {
     public static void setUpClass() throws Exception {
         facade = new  FacadeLoja();
         facade.limparFuncionarios();
+        facade.limparClientes();
+        facade.limparPessoas();
+       
     }
     
     @AfterClass

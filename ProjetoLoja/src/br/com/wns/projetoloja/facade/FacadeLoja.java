@@ -82,6 +82,9 @@ public class FacadeLoja {
     public List<Cliente> listarClientes() throws Exception{
        return daoCliente.listarCliente();
     }
+     public void limparClientes() throws Exception{
+        daoCliente.limparCliente();
+    }
     
 //***********************************************************************************  
     

@@ -1,6 +1,8 @@
 package br.com.wns.projetoloja.dao.impl;
 
+import br.com.wns.projetoloja.dao.factory.DaoFactory;
 import br.com.wns.projetoloja.dao.interfaces.IClienteDao;
+import br.com.wns.projetoloja.dao.interfaces.IPessoaDao;
 import br.com.wns.projetoloja.model.Cliente;
 import br.com.wns.projetoloja.util.PropertiesUtil;
 import java.sql.PreparedStatement;
@@ -9,15 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDao extends DaoGeneric implements IClienteDao{
-
+    private IPessoaDao iDaoPessoa;
     public void inserirCliente(Cliente cliente) throws Exception {
         
         try {
             //ok
+            iDaoPessoa = DaoFactory.createPessoaDao();
+            long id = iDaoPessoa.inserir(cliente);
+            
             String sqlCliente = "INSERT INTO clientes (idcliente,tipocliente) VALUES (?,?)";
             PreparedStatement psCliente = this.getConnection().prepareStatement(sqlCliente);
             
-            psCliente.setLong(1, cliente.getIdClente());
+            psCliente.setLong(1, id);
             psCliente.setString(2, cliente.getTipoCliente());
             
             psCliente.executeUpdate();
@@ -39,6 +44,9 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             PreparedStatement psCliente = this.getConnection().prepareStatement(sqlCliente);
             
             psCliente.setLong(1, cliente.getIdClente());
+            
+            iDaoPessoa = DaoFactory.createPessoaDao();
+            iDaoPessoa.excluir(cliente);
             
             this.getConnection().commit();
             this.closeConnection();
@@ -88,6 +96,8 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             st.setLong(2, cliente.getIdClente());
             
             st.executeUpdate();
+            iDaoPessoa = DaoFactory.createPessoaDao();
+            iDaoPessoa.alterar(cliente);
             
             this.getConnection().commit();
             this.closeConnection();
@@ -125,4 +135,18 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             throw new Exception(PropertiesUtil.getStringsValue(PropertiesUtil.MSG_ERRO_LISTAR));
         }
     }
+    
+     public void limparCliente () throws Exception {
+         try{
+             String sqlCliente = "DELETE FROM clientes"; 
+             PreparedStatement psCliente = getConnection().prepareStatement(sqlCliente);
+             psCliente.executeUpdate();
+             this.getConnection().commit();
+             this.closeConnection();
+        }catch(Exception e){
+             this.getConnection().rollback();
+             e.printStackTrace();
+             throw new Exception(PropertiesUtil.getStringsValue(PropertiesUtil.MSG_ERRO_LIMPAR));
+         }  
+     }
 }
