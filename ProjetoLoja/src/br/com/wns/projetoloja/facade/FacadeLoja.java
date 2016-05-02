@@ -34,7 +34,7 @@ public class FacadeLoja {
     
     public FacadeLoja(){
         daoFuncionario = DaoFactory.createFuncionarioDao();
-//        daoCliente = DaoFactory.createClienteDao();
+        daoCliente = DaoFactory.createClienteDao();
         daoPessoa = DaoFactory.createPessoaDao();
         daoEndereco = DaoFactory.createEnderecoDao();
         daoContato = DaoFactory.createContatoDao();
@@ -164,8 +164,8 @@ public class FacadeLoja {
     
 //***********************************************************************************
     
-    public void inserirCategoria(Categoria categoria) throws Exception{
-        daoCategoria.inserir(categoria);
+    public long inserirCategoria(Categoria categoria) throws Exception{
+        return daoCategoria.inserir(categoria);
     }
     public void alterarCategoria(Categoria categoria) throws Exception{
          daoCategoria.alterar(categoria);
@@ -179,7 +179,7 @@ public class FacadeLoja {
     public List<Categoria> listarCategorias() throws Exception{
        return  daoCategoria.listar();
     } 
-    public void limparCategoria() throws Exception{
+    public void limparCategorias() throws Exception{
         daoCategoria.limpar();
     }
     
