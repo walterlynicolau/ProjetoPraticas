@@ -12,12 +12,9 @@ import java.util.List;
 
 
 public class CategoriaDao extends DaoGeneric implements ICategoriaDao{
-   private ICategoriaDao iDaoCategoria = null;
 
     public long inserir(Categoria categoria) throws Exception {
-        try{
-           
-            
+        try{ 
             String sqlCategoria = "INSERT INTO categorias(nome) VALUES (?)";
             PreparedStatement psCategoria = getConnection().prepareStatement(sqlCategoria, Statement.RETURN_GENERATED_KEYS);
             psCategoria.setString(1, categoria.getNome());
@@ -30,7 +27,6 @@ public class CategoriaDao extends DaoGeneric implements ICategoriaDao{
             this.getConnection().commit();
             this.closeConnection();
             return id;
-            
         }catch(Exception e){
             this.getConnection().rollback();
             e.printStackTrace();
@@ -64,7 +60,6 @@ public class CategoriaDao extends DaoGeneric implements ICategoriaDao{
             psCategoria.executeUpdate();
             this.getConnection().commit();
             this.closeConnection();
-            
         }catch(Exception e){
             this.getConnection().rollback();
             e.printStackTrace();
@@ -125,9 +120,8 @@ public class CategoriaDao extends DaoGeneric implements ICategoriaDao{
              psCategoria.executeUpdate();
              this.getConnection().commit();
              this.closeConnection();
-            
         }catch(Exception e){
-            this.getConnection().commit();
+            this.getConnection().rollback();
             e.printStackTrace();
             throw new Exception(PropertiesUtil.getStringsValue(PropertiesUtil.MSG_ERRO_LIMPAR));
         } 

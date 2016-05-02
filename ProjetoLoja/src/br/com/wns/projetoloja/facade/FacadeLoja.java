@@ -18,6 +18,7 @@ import br.com.wns.projetoloja.model.Endereco;
 import br.com.wns.projetoloja.model.Estado;
 import br.com.wns.projetoloja.model.Funcionario;
 import br.com.wns.projetoloja.model.Pessoa;
+import br.com.wns.projetoloja.model.Produto;
 import java.util.List;
 
 public class FacadeLoja {
@@ -180,5 +181,26 @@ public class FacadeLoja {
     } 
     public void limparCategoria() throws Exception{
         daoCategoria.limpar();
+    }
+    
+    //***********************************************************************************
+    
+    public void inserirProduto(Produto produto) throws Exception{
+        daoProduto.inserir(produto);
+    }
+    public void alterarProduto(Produto produto) throws Exception{
+         daoProduto.alterar(produto);
+    }
+    public void excluirProduto(Produto produto) throws Exception{
+        daoProduto.excluir(produto);
+    }
+    public Produto buscarProduto(long id) throws Exception{
+        return  daoProduto.buscar(id);
+    }
+    public List<Produto> listarProdutos() throws Exception{
+       return  daoProduto.listar();
+    } 
+    public void limparProdutos() throws Exception{
+        daoProduto.limpar();
     }
 }

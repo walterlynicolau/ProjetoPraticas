@@ -105,7 +105,6 @@ public class FuncionarioDao extends DaoGeneric implements IFuncionarioDao{
              funcionario.setContato(pessoa.getContato());
              funcionario.setEndereco(pessoa.getEndereco());
             }
-            
             this.getConnection().close();
             return funcionario;
         }catch(Exception e){

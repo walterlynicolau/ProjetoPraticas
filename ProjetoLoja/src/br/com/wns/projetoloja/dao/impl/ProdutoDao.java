@@ -17,21 +17,20 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
     public void inserir(Produto produto) throws Exception {
         try {
             //okk
-            iDaoCategoria = DaoFactory.createCategoriaDao();
-            long id = iDaoCategoria.inserir(categoria);
+            //iDaoCategoria = DaoFactory.createCategoriaDao();
+            //long id = iDaoCategoria.inserir(produto.getCategoria());
             
-            String sql = "INSERT INTO Produtos (nomeproduto, codigoproduto, valor,idcategoria) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO produtos (nomeproduto, codigoproduto, valor, idcategoria) VALUES (?,?,?,?)";
             
             PreparedStatement st = this.getConnection().prepareStatement(sql);
-            
-            st.setString(2, produto.getNome());
-            st.setString(1, produto.getCodigo()); 
+            st.setString(1, produto.getNome());
+            st.setString(2, produto.getCodigo()); 
             st.setString(3, produto.getValor());
             st.setLong(4, produto.getCategoria().getId());
         
             st.executeUpdate();
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
 
         } catch (Exception e) {
             this.getConnection().rollback();
@@ -43,18 +42,20 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
     public void alterar(Produto produto) throws Exception {
         try {
             //okk
-            String sqlProduto = "UPDATE Produtos SET nomeproduto = ?, codigoproduto = ?, valor = ? WHERE idproduto = ?";
+            String sqlProduto = "UPDATE produtos SET nomeproduto = ?, codigoproduto = ?, valor = ?, idcategoria = ? WHERE idproduto = ?";
             PreparedStatement st = this.getConnection().prepareStatement(sqlProduto);
             
-            st.setString(2, produto.getNome());
-            st.setString(1, produto.getCodigo());
+            st.setString(1, produto.getNome());
+            st.setString(2, produto.getCodigo());
             st.setString(3, produto.getValor());
-            
-            st.setLong(4, produto.getId());
+            st.setLong(4, produto.getCategoria().getId());
+            st.setLong(5, produto.getId());
             st.executeUpdate();
+           // iDaoCategoria = DaoFactory.createCategoriaDao();
+            //iDaoCategoria.alterar(produto.getCategoria());
             System.out.println("chego no metodo");
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
 
         }
             catch (Exception e) {
@@ -81,11 +82,12 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
             if(rs.next()){
                 
                 produto = new Produto();
-                
+                iDaoCategoria = DaoFactory.createCategoriaDao();
                 produto.setId(rs.getLong("idproduto"));
                 produto.setNome(rs.getString("nomeproduto"));
                 produto.setCodigo(rs.getString("codigoproduto"));
                 produto.setValor(rs.getString("valor"));
+                produto.setCategoria(iDaoCategoria.buscar(rs.getInt("idcategoria")));
             }
             
             this.getConnection().commit();
@@ -110,9 +112,11 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
             st.setLong(1, produto.getId());
 
             st.executeUpdate();
+            //iDaoCategoria = DaoFactory.createCategoriaDao();
+            //iDaoCategoria.excluir(produto.getCategoria());
 
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
 
         } catch (Exception e) {
             this.getConnection().rollback();
@@ -122,6 +126,7 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
     }
 
     public List<Produto> listar() throws Exception {
+        
         try {
             //okk
             List<Produto> lista = new ArrayList<Produto>();
@@ -137,11 +142,12 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
             while(rsProduto.next()){
                 
                 Produto produto = new Produto();
-                
+                iDaoCategoria = DaoFactory.createCategoriaDao();
                 produto.setId(rsProduto.getLong("idproduto"));
                 produto.setCodigo(rsProduto.getString("codigoproduto"));
                 produto.setNome(rsProduto.getString("nomeproduto"));
                 produto.setValor(rsProduto.getString("valor"));
+                produto.setCategoria(iDaoCategoria.buscar(rsProduto.getInt("idcategoria")));
                 
                 lista.add(produto);
             }
@@ -157,9 +163,21 @@ public class ProdutoDao extends DaoGeneric implements IProdutoDao{
         }
     }
 
-    @Override
+   
     public void limpar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try{
+             String sqlCategoria = "DELETE FROM produtos"; 
+             PreparedStatement psCategoria = getConnection().prepareStatement(sqlCategoria);
+             psCategoria.executeUpdate();
+             this.getConnection().commit();
+             this.closeConnection();
+             //iDaoCategoria = DaoFactory.createCategoriaDao();
+             //iDaoCategoria.limpar();
+        }catch(Exception e){
+            this.getConnection().rollback();
+            e.printStackTrace();
+            throw new Exception(PropertiesUtil.getStringsValue(PropertiesUtil.MSG_ERRO_LIMPAR));
+        } 
     }
     
 }

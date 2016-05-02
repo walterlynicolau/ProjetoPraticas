@@ -26,22 +26,30 @@ public class Main {
     
      public static void main(String[] args) throws Exception{
         FacadeLoja facade = new FacadeLoja();
-        Categoria categoria = new Categoria();
         Funcionario funcionario = new Funcionario();
+        Categoria categoria = new Categoria();
+        Produto produto = new Produto();
         
-        //categoria = facade.buscarCategoria(1);
-        categoria.setNome("Condensados");
-       // facade.inserirCategoria(categoria); 
-//        facade.alterarCategoria(categoria);
-//        facade.excluirCategoria(categoria);
-//           facade.limparCategoria();
+//        produto = facade.buscarProduto(4);
+       
+        produto.setNome("Skinner");
+        produto.setCodigo("101");
+        produto.setValor("2.00");
+        produto.getCategoria().setId(2);
+        produto.getCategoria().setNome("jeans");
+        
+//        facade.inserirProduto(produto);
+         //facade.alterarProduto(produto);
+       // facade.excluirProduto(produto);
+//         facade.limparProdutos();
+//         facade.limparCategoria();
         
 //         categoria = facade.buscarCategoria(0);
 //         System.out.println(categoria.getId()+"\n"+categoria.getNome());
          
-//         List<Categoria> categorias = facade.listarCategorias();
-//         for(Categoria categoria2: categorias){
-//             System.out.println(categoria2.getId()+"\n"+categoria2.getNome());
+//         List<Produto> produtos = facade.listarProdutos();
+//         for(Produto produto2: produtos){
+//             System.out.println(produto2.toString());
 //         }
     
      //facade.limparFuncionarios();

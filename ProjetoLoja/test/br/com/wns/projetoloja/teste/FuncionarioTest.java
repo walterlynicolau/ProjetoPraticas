@@ -49,7 +49,7 @@ public class FuncionarioTest {
         testeEditar();
         testeBuscar();
         testeExcluir();
-        // testeListar();
+         //testeListar();
    }
 
     

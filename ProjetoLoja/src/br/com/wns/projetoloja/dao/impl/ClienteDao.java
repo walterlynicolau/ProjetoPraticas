@@ -22,7 +22,7 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             
             psCliente.executeUpdate();
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
             
         } catch (Exception e) {
             this.getConnection().rollback();
@@ -41,7 +41,7 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             psCliente.setLong(1, cliente.getIdClente());
             
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
         } catch (Exception e) {
             this.getConnection().rollback();
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
                 cliente.setTipoCliente(rsCliente.getString("tipocliente"));
             }
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
             
             return cliente;
             
@@ -90,7 +90,7 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
             st.executeUpdate();
             
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
         } catch (Exception e) {
             this.getConnection().rollback();
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class ClienteDao extends DaoGeneric implements IClienteDao{
                 listaClientes.add(cliente);
             }
             this.getConnection().commit();
-            this.getConnection().close();
+            this.closeConnection();
             return listaClientes;
             
         } catch (Exception e) {
